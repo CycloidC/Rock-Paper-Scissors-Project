@@ -1,12 +1,14 @@
+
+
 //Get the computer's choice for the game
 function getComputerChoice() {
     let choiceIndicator = Math.floor(Math.random() * 3);
     if (choiceIndicator == 0) {
-        computerChoice = "Rock"
+        computerChoice = "ROCK"
     } else if (choiceIndicator == 1) {
-        computerChoice = "Paper"
+        computerChoice = "PAPER"
     } else if (choiceIndicator == 2) {
-        computerChoice = "Scissors"}
+        computerChoice = "SCISSORS"}
     return computerChoice;
 }
 
@@ -41,36 +43,56 @@ let compScore = 0
 //Evaluate if computer or player wins, increment score appropriately
 function playRound(playOption, compOption) {
     if (playOption == "ROCK" & compOption == "SCISSORS") {
-        console.log("You Win!")
         playerScore++
+        resultContent.textContent = 'Scissors! You Win! Player score is ' + playerScore + ' Computer score is ' + compScore
+        results.appendChild(resultContent)
     } else if (playOption == "PAPER" & compOption == "ROCK") {
-        console.log("You Win!")
         playerScore++
+        resultContent.textContent = 'Rock! You Win! Player score is ' + playerScore + ' Computer score is ' + compScore
+        results.appendChild(resultContent)
     } else if (playOption == "SCISSORS" & compOption == "PAPER") {
-        console.log("You Win!")
         playerScore++
+        resultContent.textContent = 'Paper! You Win! Player score is ' + playerScore + ' Computer score is ' + compScore
+        results.appendChild(resultContent)
     } else if (playOption == "ROCK" & compOption == "PAPER") {
-        console.log("You Lose!")
         compScore++
+        resultContent.textContent = 'Paper! You Lose! Player score is ' + playerScore + ' Computer score is ' + compScore
+        results.appendChild(resultContent)
     } else if (playOption == "PAPER" & compOption == "SCISSORS") {
-        console.log("You Lose!")
         compScore++
+        resultContent.textContent = 'Scissors! You Lose! Player score is ' + playerScore + ' Computer score is ' + compScore
+        results.appendChild(resultContent)
     } else if (playOption == "SCISSORS" & compOption == "ROCK") {
-        console.log("You Lose!")
         compScore++
+        resultContent.textContent = 'Rock! You Lose! Player score is ' + playerScore + ' Computer score is ' + compScore
+        results.appendChild(resultContent)
+    } else if (playOption == compOption) {
+        resultContent.textContent = compOption + '! Whoops! A tie. Let\'s try again. Player score is ' + playerScore + ' Computer score is ' + compScore
+        results.appendChild(resultContent)
+    }
+
+    if (playerScore == 5 || compScore == 5) {
+        if (playerScore > compScore) {
+            resultContent.textContent = "You won the whole game! " + "Player score: " + playerScore + " Computer score: " + compScore
+            results.appendChild(resultContent)
+        } else if (compScore > playerScore) {
+            resultContent.textContent = "You lost the whole game! " + "Player score: " + playerScore + " Computer score: " + compScore
+            results.appendChild(resultContent)
+        } else {resultContent.textContent = "What happened?"
+        results.appendChild(resultContent)}
     }
 }
 
 
 //Loop game until 5 rounds have passed, evaluate the overall winner and print winning message
 //Contain other functions
-function game() {
-    for (let i = 0; i < 5; i++) {
-    getPlayerChoice()
+function game(playOption, compOption) {
+    for (let i = 0; i < 100; i++) {
+    //getPlayerChoice()
 
-    compOption = computerChoice.toUpperCase()
+    //compOption = computerChoice.toUpperCase()
 
-    playRound(playOption, compOption)
+    playRound(playOption, getComputerChoice())
     }
     if (playerScore > compScore) {
         console.log("You won the whole game!")
@@ -81,4 +103,21 @@ function game() {
     } else {console.log("What happened?")}
 }
 
-game()
+//game()
+
+const rockBtn = document.querySelector('.rock');
+rockBtn.addEventListener('click', function() {playRound("ROCK", getComputerChoice())}
+);
+
+const paperBtn = document.querySelector('.paper');
+paperBtn.addEventListener('click', function() {playRound("PAPER", getComputerChoice())}
+);
+
+const scissorsBtn = document.querySelector('.scissors');
+scissorsBtn.addEventListener('click', function() {playRound("SCISSORS", getComputerChoice())}
+);
+
+const results = document.querySelector('.results');
+const resultContent = document.createElement('div');
+results.classList.add('resultContent');
+resultContent.textContent = 'You Win!'
